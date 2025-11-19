@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Jose Godinez-Contreras / 002
  *
  *   This java file contains the problem solutions for the methods selectionSort,
  *   mergeSortDivisibleByKFirst, asteroidsDestroyed, and numRescueCanoes methods.
@@ -8,8 +8,10 @@
  ********************************************************************/
 
 import java.util.Arrays;
+import jdk.jfr.ValueDescriptor;
 
 public class ProblemSolutions {
+    
 
     /**
      * Method SelectionSort
@@ -31,20 +33,46 @@ public class ProblemSolutions {
     public  void selectionSort(int[] values) {
         selectionSort(values, true);
     }
+    public static void swap (int[] values, int a, int b) {
+    int temp = values[a];
+    values[a] = values[b];
+    values[b] = temp;
+}
 
     public static void selectionSort(int[] values, boolean ascending ) {
 
         int n = values.length;
 
+         if (!ascending) {//set with !ascending because using ascending = false will cause it to always be set as false
+        // DESCENDING: find max each pass
         for (int i = 0; i < n - 1; i++) {
-
-            // YOU CODE GOES HERE -- COMPLETE THE INNER LOOP OF THIS
-            // "SELECTION SORT" ALGORITHM.
-            // DO NOT FORGET TO ADD YOUR NAME / SECTION ABOVE
-
+            int maxIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (values[j] > values[maxIndex]) {
+                    maxIndex = j;
+                }
+            }
+            swap(values, i, maxIndex);
         }
+    } else {
+        // ASCENDING: find min each pass
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (values[j] < values[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            swap(values, i, minIndex);
+        }
+    }
+        
+    }
 
-    } // End class selectionSort
+        
+
+     // End class selectionSort
+
 
 
     /**
@@ -199,4 +227,3 @@ public class ProblemSolutions {
     }
 
 } // End Class ProblemSolutions
-
