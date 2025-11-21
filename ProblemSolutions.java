@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /******************************************************************
  *
  *   Jose Godinez-Contreras / 002
@@ -6,9 +8,6 @@
  *   mergeSortDivisibleByKFirst, asteroidsDestroyed, and numRescueCanoes methods.
  *
  ********************************************************************/
-
-import java.util.Arrays;
-import jdk.jfr.ValueDescriptor;
 
 public class ProblemSolutions {
     
@@ -129,9 +128,33 @@ public class ProblemSolutions {
         // ALLOCATES AUXILIARY DATA STRUCTURES (TEMPORARY ARRAYS). IT WILL BE EASIER
         // TO CODE WITH A SPACE COMPLEXITY OF O(N LOG N), WHICH IS FINE FOR PURPOSES
         // OF THIS PROGRAMMING EXERCISES.
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
 
-        return;
+        int[] L = new int[n1];
+        int[] R = new int[n2];
 
+        for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+        for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+
+        int i = 0, j = 0, idx = left;
+
+        while (i < n1 && j < n2) {
+            int keyL = (L[i] % k == 0) ? 0 : 1;
+            int keyR = (R[j] % k == 0) ? 0 : 1;
+
+            if (keyL < keyR) {
+                arr[idx++] = L[i++];
+            } else if (keyR < keyL) {
+                arr[idx++] = R[j++];
+            } else {
+                if (L[i] <= R[j]) arr[idx++] = L[i++];
+                else arr[idx++] = R[j++];
+            }
+        }
+
+        while (i < n1) arr[idx++] = L[i++];
+        while (j < n2) arr[idx++] = R[j++];
     }
 
 
@@ -183,8 +206,28 @@ public class ProblemSolutions {
     public static boolean asteroidsDestroyed(int mass, int[] asteroids) {
 
         // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT()
+        if (asteroids == null || asteroids.length == 0) {
+            return true;
+        }
 
-        return false;
+        Arrays.sort(asteroids);
+
+        long current = mass;
+
+        for (int a : asteroids) {
+
+            if (a == 0) {
+                continue;
+            }
+
+            if (current < a) {
+                return false;
+            }
+
+            current += a;
+        }
+
+        return true;
 
     }
 
@@ -220,9 +263,23 @@ public class ProblemSolutions {
 
     public static int numRescueSleds(int[] people, int limit) {
 
-        // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT
+        Arrays.sort(people);
 
-        return -1;
+        int left = 0;
+        int right = people.length - 1;
+        int sleds = 0;
+
+        while (left <= right) {
+            if (people[left] + people[right] <= limit) {
+                left++;
+                right--;
+            } else {
+                right--;
+            }
+            sleds++;
+        }
+
+    return sleds;
 
     }
 
